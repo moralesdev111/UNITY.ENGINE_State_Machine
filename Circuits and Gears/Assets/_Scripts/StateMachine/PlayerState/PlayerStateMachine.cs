@@ -50,6 +50,9 @@ public class PlayerStateMachine : StateMachine
 	public float DashTime => dashTime;
 	[SerializeField] private Attack[] attacks;
 	public Attack[] Attacks => attacks;
+	[SerializeField] private HandleWeaponTrigger handleWeaponTrigger;
+	public HandleWeaponTrigger HandleWeaponTrigger => handleWeaponTrigger;
+
 
 
 

@@ -15,6 +15,8 @@ public class PlayerAttackState : PlayerBaseState
 	{
 		playerStateMachine.PlayerAnimator.CrossFadeInFixedTime(currentAttack.AnimationName, currentAttack.AnimationTransitionDuration);
 		playerStateMachine.Dash();
+
+		playerStateMachine.HandleWeaponTrigger.ToggleWeaponTrigger();
 	}
 
 	public override void Tick(float deltaTime)
@@ -37,7 +39,7 @@ public class PlayerAttackState : PlayerBaseState
 	
 	public override void Exit()
 	{
-		
+		playerStateMachine.HandleWeaponTrigger.ToggleWeaponTrigger();
 	}
 
 	private float GetNormalizedAnimationTime()
