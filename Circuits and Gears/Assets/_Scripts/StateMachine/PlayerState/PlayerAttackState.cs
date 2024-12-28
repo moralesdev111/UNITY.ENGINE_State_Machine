@@ -1,10 +1,9 @@
-using System;
 using UnityEngine;
 
 public class PlayerAttackState : PlayerBaseState
 {
 	private Attack currentAttack;
-	private float previousFrameTime;
+
 
 	public PlayerAttackState(PlayerStateMachine playerStateMachine, int attackID) : base(playerStateMachine)
 	{
@@ -13,10 +12,11 @@ public class PlayerAttackState : PlayerBaseState
 
 	public override void Enter()
 	{
+		playerStateMachine.WeaponDamage.SetAttack(currentAttack.AttackDamage);
 		playerStateMachine.PlayerAnimator.CrossFadeInFixedTime(currentAttack.AnimationName, currentAttack.AnimationTransitionDuration);
 		playerStateMachine.Dash();
 
-		playerStateMachine.HandleWeaponTrigger.ToggleWeaponTrigger();
+		playerStateMachine.WeaponTriggerToggle.ToggleWeaponTrigger();
 	}
 
 	public override void Tick(float deltaTime)
@@ -34,12 +34,11 @@ public class PlayerAttackState : PlayerBaseState
 		{
 			playerStateMachine.SwitchState(new PlayerFreeLookState(playerStateMachine));
 		}
-		previousFrameTime = normalizedTime;
 	}
 	
 	public override void Exit()
 	{
-		playerStateMachine.HandleWeaponTrigger.ToggleWeaponTrigger();
+		playerStateMachine.WeaponTriggerToggle.ToggleWeaponTrigger();
 	}
 
 	private float GetNormalizedAnimationTime()

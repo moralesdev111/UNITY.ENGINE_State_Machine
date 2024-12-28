@@ -3,6 +3,7 @@ using UnityEngine;
 [System.Serializable]
 public class Attack
 {
+	//attack data
 	[SerializeField] private string animationName;
 	public string AnimationName => animationName;
 	[SerializeField] private float animationTransitionDuration;
@@ -11,4 +12,6 @@ public class Attack
 	public int ComboStateIndex => comboStateIndex;
 	[SerializeField] private float comboAttackTime;
 	public float ComboAttackTime => comboAttackTime;
+	[SerializeField] private int attackDamage;
+	public int AttackDamage => attackDamage;
 }

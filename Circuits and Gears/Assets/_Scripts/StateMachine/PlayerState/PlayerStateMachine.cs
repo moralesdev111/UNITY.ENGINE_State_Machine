@@ -50,10 +50,11 @@ public class PlayerStateMachine : StateMachine
 	public float DashTime => dashTime;
 	[SerializeField] private Attack[] attacks;
 	public Attack[] Attacks => attacks;
-	[SerializeField] private HandleWeaponTrigger handleWeaponTrigger;
-	public HandleWeaponTrigger HandleWeaponTrigger => handleWeaponTrigger;
-
-
+	[SerializeField] private WeaponTriggerToggle weaponTriggerToggle;
+	public WeaponTriggerToggle WeaponTriggerToggle => weaponTriggerToggle;
+	[SerializeField] private WeaponDamage weaponDamage;
+	public WeaponDamage WeaponDamage => weaponDamage;
+	private readonly int inputMagnitudeHash = Animator.StringToHash("inputMagnitude");
 
 
 	private void Start()
@@ -75,7 +76,7 @@ public class PlayerStateMachine : StateMachine
 			CharacterController.Move(moveDirection.normalized * speed * deltaTime);
 		}
 		float inputMagnitude = Mathf.Clamp01(direction.magnitude) * (speed / SprintSpeed);
-		PlayerAnimator.SetFloat(Animator.StringToHash("inputMagnitude"), inputMagnitude, 0.1f, deltaTime);
+		PlayerAnimator.SetFloat(inputMagnitudeHash, inputMagnitude, 0.1f, deltaTime);
 	}
 
 	public void HandleGravity(float deltaTime)

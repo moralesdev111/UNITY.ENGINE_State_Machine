@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class PlayerFreeLookState : PlayerBaseState
 {
-	public PlayerFreeLookState(PlayerStateMachine playerStateMachine) : base(playerStateMachine) {}
 	private readonly int FreeLookBlendTreeHash = Animator.StringToHash("MovingBlendTree");
+
+	public PlayerFreeLookState(PlayerStateMachine playerStateMachine) : base(playerStateMachine) {}
+	
 
 	public override void Enter()
 	{
@@ -12,7 +14,7 @@ public class PlayerFreeLookState : PlayerBaseState
 		playerStateMachine.PlayerController.onDash += playerStateMachine.Dash;
 		playerStateMachine.PlayerController.onAttack += OnAttack;
 
-		playerStateMachine.PlayerAnimator.Play(FreeLookBlendTreeHash);
+		playerStateMachine.PlayerAnimator.CrossFadeInFixedTime(FreeLookBlendTreeHash, 0.15f);
 		
 	}
 	public override void Tick(float deltaTime)

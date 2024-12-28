@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class PlayerJumpState : PlayerBaseState
 {
+	private readonly int IsJumpingHash = Animator.StringToHash("isJumping");
 	public PlayerJumpState(PlayerStateMachine playerStateMachine) : base(playerStateMachine){}
 
 	public override void Enter()
@@ -22,7 +23,7 @@ public class PlayerJumpState : PlayerBaseState
 
 	public override void Exit()
 	{
-		playerStateMachine.PlayerAnimator.SetBool("isJumping", false);
+		playerStateMachine.PlayerAnimator.SetBool(IsJumpingHash, false);
 		playerStateMachine.PlayerController.onSprint -= playerStateMachine.Sprint;
 	}
 
@@ -30,7 +31,7 @@ public class PlayerJumpState : PlayerBaseState
 	{
 		if (playerStateMachine.IsGrounded)
 		{
-			playerStateMachine.PlayerAnimator.SetBool("isJumping", true);
+			playerStateMachine.PlayerAnimator.SetBool(IsJumpingHash, true);
 			playerStateMachine.Velocity.y = Mathf.Sqrt(playerStateMachine.JumpHeight * -2.0f * playerStateMachine.Gravity);
 		}
 	}
