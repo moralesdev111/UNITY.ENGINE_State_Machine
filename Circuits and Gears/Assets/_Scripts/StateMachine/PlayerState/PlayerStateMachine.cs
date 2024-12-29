@@ -48,19 +48,31 @@ public class PlayerStateMachine : StateMachine
 	public float DashSpeed => dashSpeed;
 	[SerializeField] private float dashTime;
 	public float DashTime => dashTime;
-	[SerializeField] private Attack[] attacks;
-	public Attack[] Attacks => attacks;
+	[SerializeField] private AttackData[] attackDataArray;
+	public AttackData[] AttackDataArray => attackDataArray;
 	[SerializeField] private WeaponTriggerToggle weaponTriggerToggle;
 	public WeaponTriggerToggle WeaponTriggerToggle => weaponTriggerToggle;
 	[SerializeField] private WeaponDamage weaponDamage;
 	public WeaponDamage WeaponDamage => weaponDamage;
 	private readonly int inputMagnitudeHash = Animator.StringToHash("inputMagnitude");
+	[SerializeField] private Ragdoll ragdoll;
+	public Ragdoll Ragdoll => ragdoll;
 
+
+	private void OnEnable()
+	{
+		healthComponent.onDeath += HandleDeath;
+	}
 
 	private void Start()
     {
         SwitchState(new PlayerFreeLookState(this));
     }
+
+	private void OnDisable()
+	{
+		healthComponent.onDeath += HandleDeath;
+	}
 
 	public void HandleMovement(float deltaTime, float speed)
 	{
@@ -121,5 +133,10 @@ public class PlayerStateMachine : StateMachine
 			characterController.Move(dashDirection * dashSpeed * Time.deltaTime);
 			yield return null;
 		}
+	}
+
+	private void HandleDeath()
+	{
+		SwitchState(new PlayerDeadState(this));
 	}
 }

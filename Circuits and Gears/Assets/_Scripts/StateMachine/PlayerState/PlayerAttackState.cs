@@ -2,27 +2,26 @@ using UnityEngine;
 
 public class PlayerAttackState : PlayerBaseState
 {
-	private Attack currentAttack;
+	private AttackData currentAttackData;
 
 
 	public PlayerAttackState(PlayerStateMachine playerStateMachine, int attackID) : base(playerStateMachine)
 	{
-		currentAttack = playerStateMachine.Attacks[attackID];
+		currentAttackData = playerStateMachine.AttackDataArray[attackID];
 	}
 
 	public override void Enter()
 	{
-		playerStateMachine.WeaponDamage.SetAttack(currentAttack.AttackDamage);
-		playerStateMachine.PlayerAnimator.CrossFadeInFixedTime(currentAttack.AnimationName, currentAttack.AnimationTransitionDuration);
+		playerStateMachine.WeaponDamage.SetAttack(currentAttackData.AttackDamage);
+		playerStateMachine.PlayerAnimator.CrossFadeInFixedTime(currentAttackData.AnimationName, currentAttackData.AnimationTransitionDuration);
 		playerStateMachine.Dash();
-
 		playerStateMachine.WeaponTriggerToggle.ToggleWeaponTrigger();
 	}
 
 	public override void Tick(float deltaTime)
 	{
 		playerStateMachine.HandleGravity(deltaTime);
-		float normalizedTime = GetNormalizedAnimationTime();
+		float normalizedTime = GetNormalizedAnimationTime(playerStateMachine.PlayerAnimator);
 		if (normalizedTime < 1.0f)
 		{
 			if(playerStateMachine.PlayerController.IsAttacking)
@@ -41,36 +40,17 @@ public class PlayerAttackState : PlayerBaseState
 		playerStateMachine.WeaponTriggerToggle.ToggleWeaponTrigger();
 	}
 
-	private float GetNormalizedAnimationTime()
-	{
-		AnimatorStateInfo currentInformation = playerStateMachine.PlayerAnimator.GetCurrentAnimatorStateInfo(0);
-		AnimatorStateInfo nextInformation = playerStateMachine.PlayerAnimator.GetNextAnimatorStateInfo(0);
-
-		if(playerStateMachine.PlayerAnimator.IsInTransition(0) && nextInformation.IsTag("Attack"))
-		{
-			return nextInformation.normalizedTime;
-		}
-		else if(!playerStateMachine.PlayerAnimator.IsInTransition(0) && currentInformation.IsTag("Attack"))
-		{
-			return currentInformation.normalizedTime;
-		}
-		else
-		{
-			return 0;
-		}
-	}
-
 	private void TryComboAttack(float normalizedTime)
 	{
-		if (currentAttack.ComboStateIndex == -1) return;
-		if (normalizedTime < currentAttack.ComboAttackTime) return;
+		if (currentAttackData.ComboStateIndex == -1) return;
+		if (normalizedTime < currentAttackData.ComboAttackTime) return;
 
 		playerStateMachine.SwitchState
 			(
 			new PlayerAttackState
 			(
 				playerStateMachine,
-			currentAttack.ComboStateIndex
+			currentAttackData.ComboStateIndex
 			)
 		);
 	}

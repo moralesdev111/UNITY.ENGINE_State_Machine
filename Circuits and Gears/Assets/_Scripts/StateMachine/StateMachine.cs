@@ -4,6 +4,9 @@ public abstract class StateMachine : MonoBehaviour
 {
 	//current state the entity is in
     private State currentState;
+	[SerializeField] protected HealthComponent healthComponent;
+	public HealthComponent HealthComponent => healthComponent;
+
 
 	//run the current state update logic
 	private void Update()

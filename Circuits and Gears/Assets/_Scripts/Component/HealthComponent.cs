@@ -14,13 +14,15 @@ public class HealthComponent : MonoBehaviour
 			onHealthChanged?.Invoke(currentHealth);
 			if (currentHealth == 0)
 			{
-				Destroy(gameObject);
 				onDeath?.Invoke();
+				isDead = true;
 			}
 		}
 	}
 	public event Action<int> onHealthChanged;
 	public event Action onDeath;
+	private bool isDead = false;
+	public bool IsDead => isDead;
 
 
 	//set starting health

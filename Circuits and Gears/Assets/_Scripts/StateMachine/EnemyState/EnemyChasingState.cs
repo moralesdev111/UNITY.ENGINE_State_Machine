@@ -7,6 +7,7 @@ public class EnemyChasingState : EnemyBaseState
 	private readonly int blendValue = Animator.StringToHash("Blend");
 	private const float animationBlendTime = 0.15f;
 	
+
 	public override void Enter()
 	{
 		enemyStateMachine.EnemyAnimator.CrossFadeInFixedTime(locomotionBlendTree, animationBlendTime);
@@ -17,9 +18,11 @@ public class EnemyChasingState : EnemyBaseState
 		if (!IsInChaseRange())
 		{
 			enemyStateMachine.SwitchState(new EnemyIdleState(enemyStateMachine));
-			return;
 		}
-
+		else if(IsInAttackRange())
+		{
+			enemyStateMachine.SwitchState(new EnemyAttackState(enemyStateMachine));
+		}
 		MoveToPlayer(deltaTime);
 		enemyStateMachine.EnemyAnimator.SetFloat(blendValue, 1.0f, animationBlendTime, deltaTime);
 	}
@@ -32,8 +35,13 @@ public class EnemyChasingState : EnemyBaseState
 
 	private void MoveToPlayer(float deltaTime)
 	{
-		enemyStateMachine.NavMeshAgent.SetDestination(enemyStateMachine.Player.transform.position);
+		enemyStateMachine.NavMeshAgent.SetDestination(enemyStateMachine.PlayerHealthComponent.gameObject.transform.position);
+	}
 
-
+	private bool IsInAttackRange()
+	{
+		if (enemyStateMachine.PlayerHealthComponent.IsDead) return false;
+		float playerDistanceSquare = (enemyStateMachine.PlayerHealthComponent.transform.position - enemyStateMachine.transform.position).sqrMagnitude;
+		return playerDistanceSquare <= enemyStateMachine.AttackRange * enemyStateMachine.AttackRange;
 	}
 }

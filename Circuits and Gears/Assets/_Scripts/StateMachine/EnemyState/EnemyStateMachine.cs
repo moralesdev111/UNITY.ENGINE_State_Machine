@@ -7,17 +7,36 @@ public class EnemyStateMachine : StateMachine
     public Animator EnemyAnimator => enemyAnimator;
     [SerializeField] private float chasingRange;
     public float ChasingRange => chasingRange;
-    [SerializeField] private GameObject player;
-    public GameObject Player => player;
+	[SerializeField] private float attackRange;
+	public float AttackRange => attackRange;
+    [SerializeField] private int attackDamage;
+    public int AttackDamage => attackDamage;
+	[SerializeField] private HealthComponent playerHealthComponent;
+    public HealthComponent PlayerHealthComponent => playerHealthComponent;
     [SerializeField] private NavMeshAgent navMeshAgent;
     public NavMeshAgent NavMeshAgent => navMeshAgent;
+	[SerializeField] private WeaponTriggerToggle weaponTriggerToggle;
+    public WeaponTriggerToggle WeaponTriggerToggle => weaponTriggerToggle;
+    [SerializeField] private WeaponDamage weaponDamage;
+	public WeaponDamage WeaponDamage => weaponDamage;
+	[SerializeField] private Ragdoll ragdoll;
+	public Ragdoll Ragdoll => ragdoll;
 
 
+	private void OnEnable()
+	{
+		healthComponent.onDeath += HandleDeath;
+	}
+
+	private void OnDisable()
+	{
+		healthComponent.onDeath += HandleDeath;
+	}
 
 
-    private void Start()
+	private void Start()
     {
-		player = GameObject.FindGameObjectWithTag("Player");
+		playerHealthComponent = GameObject.FindGameObjectWithTag("Player").GetComponent<HealthComponent>();
         SwitchState(new EnemyIdleState(this));
     }
 
@@ -27,4 +46,8 @@ public class EnemyStateMachine : StateMachine
         Gizmos.DrawWireSphere(transform.position, chasingRange);
 	}
 
+	private void HandleDeath()
+	{
+		SwitchState(new EnemyDeadState(this));
+	}
 }

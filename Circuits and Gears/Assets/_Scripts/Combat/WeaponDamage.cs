@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class WeaponDamage : MonoBehaviour
 {
-	[SerializeField] private Collider playerCollider;
+	[SerializeField] private Collider rootCollider;
 	private int damage;
 	private List<Collider> alreadyCollidedWith = new List<Collider>();
 
@@ -15,7 +15,7 @@ public class WeaponDamage : MonoBehaviour
 
 	private void OnTriggerEnter(Collider other)
 	{
-		if (other == playerCollider) return;
+		if (other == rootCollider) return;
 
 		if(alreadyCollidedWith.Contains(other)) return;
 
@@ -23,7 +23,6 @@ public class WeaponDamage : MonoBehaviour
 
 		if(other.TryGetComponent<HealthComponent>(out HealthComponent healthComponent))
 		{
-			if(other.CompareTag("Enemy"))
 			{
 				healthComponent.ChangeHealth(damage);
 			}

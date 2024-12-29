@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [System.Serializable]
-public class Attack
+public class AttackData
 {
 	//attack data
 	[SerializeField] private string animationName;
