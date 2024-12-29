@@ -1753,6 +1753,18 @@ PrefabInstance:
       propertyPath: playerCameraTransform
       value: 
       objectReference: {fileID: 330585546}
+    - target: {fileID: 7356339370016515225, guid: a4fac88e14165264c8c2561f21f848c7, type: 3}
+      propertyPath: attackDataArray.Array.data[0].comboAttackTime
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7356339370016515225, guid: a4fac88e14165264c8c2561f21f848c7, type: 3}
+      propertyPath: attackDataArray.Array.data[1].comboAttackTime
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7356339370016515225, guid: a4fac88e14165264c8c2561f21f848c7, type: 3}
+      propertyPath: attackDataArray.Array.data[2].comboAttackTime
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 8275823780736449293, guid: a4fac88e14165264c8c2561f21f848c7, type: 3}
       propertyPath: m_Name
       value: Player
