@@ -3,7 +3,6 @@ using UnityEngine;
 public class Ragdoll : MonoBehaviour
 {
     [SerializeField] private Animator animator;
-    [SerializeField] private PlayerController playerController;
     private Collider[] colliders;
     private Rigidbody[] rigidbodies;
 
@@ -33,11 +32,6 @@ public class Ragdoll : MonoBehaviour
                 rigidbodies[i].useGravity = toggle;
 			}
 		}
-
 		animator.enabled = !toggle;
-        if (playerController != null)
-		{
-            playerController.enabled = !toggle;
-        }
 	}
 }

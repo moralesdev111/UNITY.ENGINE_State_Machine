@@ -11,7 +11,7 @@ public class EnemyStateMachine : StateMachine
 	public float AttackRange => attackRange;
     [SerializeField] private int attackDamage;
     public int AttackDamage => attackDamage;
-	[SerializeField] private HealthComponent playerHealthComponent;
+	private HealthComponent playerHealthComponent;
     public HealthComponent PlayerHealthComponent => playerHealthComponent;
     [SerializeField] private NavMeshAgent navMeshAgent;
     public NavMeshAgent NavMeshAgent => navMeshAgent;
@@ -36,7 +36,7 @@ public class EnemyStateMachine : StateMachine
 
 	private void Start()
     {
-		playerHealthComponent = GameObject.FindGameObjectWithTag("Player").GetComponent<HealthComponent>();
+		playerHealthComponent = GameManager.Instance.Player.GetComponent<HealthComponent>();
         SwitchState(new EnemyIdleState(this));
     }
 

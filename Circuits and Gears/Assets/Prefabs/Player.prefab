@@ -3363,17 +3363,17 @@ MonoBehaviour:
   - animationName: Attack1
     animationTransitionDuration: 0.15
     comboStateIndex: 1
-    comboAttackTime: 0.05
+    comboAttackTime: 0.1
     attackDamage: 20
   - animationName: Attack2
     animationTransitionDuration: 0.15
     comboStateIndex: 2
-    comboAttackTime: 0.05
+    comboAttackTime: 0.15
     attackDamage: 30
   - animationName: Attack3
     animationTransitionDuration: 0.25
     comboStateIndex: -1
-    comboAttackTime: 0.1
+    comboAttackTime: 0.2
     attackDamage: 50
   weaponTriggerToggle: {fileID: 7906321230155789624}
   weaponDamage: {fileID: 8694026202414562683}

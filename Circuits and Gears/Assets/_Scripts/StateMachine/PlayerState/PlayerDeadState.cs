@@ -1,4 +1,3 @@
-using UnityEngine;
 
 public class PlayerDeadState : PlayerBaseState
 {
@@ -8,6 +7,7 @@ public class PlayerDeadState : PlayerBaseState
 	{
 		playerStateMachine.Ragdoll.ToggleRagdoll(true);
 		playerStateMachine.WeaponDamage.gameObject.SetActive(false);
+		playerStateMachine.PlayerController.enabled = false;
 	}
 	public override void Tick(float deltaTime)
 	{
