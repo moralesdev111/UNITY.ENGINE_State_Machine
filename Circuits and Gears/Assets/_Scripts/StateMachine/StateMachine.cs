@@ -3,7 +3,8 @@ using UnityEngine;
 public abstract class StateMachine : MonoBehaviour
 {
 	//current state the entity is in
-    private State currentState;
+    protected State currentState;
+	public State CurrentState => currentState;
 	[SerializeField] protected HealthComponent healthComponent;
 	public HealthComponent HealthComponent => healthComponent;
 

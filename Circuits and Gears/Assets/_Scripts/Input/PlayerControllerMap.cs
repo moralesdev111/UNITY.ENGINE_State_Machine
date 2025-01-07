@@ -80,6 +80,33 @@ public partial class @PlayerControllerMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Block"",
+                    ""type"": ""Button"",
+                    ""id"": ""e19f7b0a-e0c6-4c4d-bc11-72576859405c"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PrimaryWeapon"",
+                    ""type"": ""Button"",
+                    ""id"": ""2794f196-bc5d-4634-8bfd-72d4ede80c58"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Inventory"",
+                    ""type"": ""Button"",
+                    ""id"": ""fd582c34-659f-4abb-bf47-0b2b1c33f5b4"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -192,6 +219,39 @@ public partial class @PlayerControllerMap: IInputActionCollection2, IDisposable
                     ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""88e1e1ab-efb8-4638-8570-a3c2fd2dbe15"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Block"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a5d910e4-aaac-495f-9867-2d2d48ce33e6"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PrimaryWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7a212fba-7ac9-401f-b35a-43f3a7a93f5d"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Inventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -206,6 +266,9 @@ public partial class @PlayerControllerMap: IInputActionCollection2, IDisposable
         m_PlayerMainMap_Jump = m_PlayerMainMap.FindAction("Jump", throwIfNotFound: true);
         m_PlayerMainMap_Dash = m_PlayerMainMap.FindAction("Dash", throwIfNotFound: true);
         m_PlayerMainMap_Attack = m_PlayerMainMap.FindAction("Attack", throwIfNotFound: true);
+        m_PlayerMainMap_Block = m_PlayerMainMap.FindAction("Block", throwIfNotFound: true);
+        m_PlayerMainMap_PrimaryWeapon = m_PlayerMainMap.FindAction("PrimaryWeapon", throwIfNotFound: true);
+        m_PlayerMainMap_Inventory = m_PlayerMainMap.FindAction("Inventory", throwIfNotFound: true);
     }
 
     ~@PlayerControllerMap()
@@ -278,6 +341,9 @@ public partial class @PlayerControllerMap: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerMainMap_Jump;
     private readonly InputAction m_PlayerMainMap_Dash;
     private readonly InputAction m_PlayerMainMap_Attack;
+    private readonly InputAction m_PlayerMainMap_Block;
+    private readonly InputAction m_PlayerMainMap_PrimaryWeapon;
+    private readonly InputAction m_PlayerMainMap_Inventory;
     public struct PlayerMainMapActions
     {
         private @PlayerControllerMap m_Wrapper;
@@ -288,6 +354,9 @@ public partial class @PlayerControllerMap: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_PlayerMainMap_Jump;
         public InputAction @Dash => m_Wrapper.m_PlayerMainMap_Dash;
         public InputAction @Attack => m_Wrapper.m_PlayerMainMap_Attack;
+        public InputAction @Block => m_Wrapper.m_PlayerMainMap_Block;
+        public InputAction @PrimaryWeapon => m_Wrapper.m_PlayerMainMap_PrimaryWeapon;
+        public InputAction @Inventory => m_Wrapper.m_PlayerMainMap_Inventory;
         public InputActionMap Get() { return m_Wrapper.m_PlayerMainMap; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -315,6 +384,15 @@ public partial class @PlayerControllerMap: IInputActionCollection2, IDisposable
             @Attack.started += instance.OnAttack;
             @Attack.performed += instance.OnAttack;
             @Attack.canceled += instance.OnAttack;
+            @Block.started += instance.OnBlock;
+            @Block.performed += instance.OnBlock;
+            @Block.canceled += instance.OnBlock;
+            @PrimaryWeapon.started += instance.OnPrimaryWeapon;
+            @PrimaryWeapon.performed += instance.OnPrimaryWeapon;
+            @PrimaryWeapon.canceled += instance.OnPrimaryWeapon;
+            @Inventory.started += instance.OnInventory;
+            @Inventory.performed += instance.OnInventory;
+            @Inventory.canceled += instance.OnInventory;
         }
 
         private void UnregisterCallbacks(IPlayerMainMapActions instance)
@@ -337,6 +415,15 @@ public partial class @PlayerControllerMap: IInputActionCollection2, IDisposable
             @Attack.started -= instance.OnAttack;
             @Attack.performed -= instance.OnAttack;
             @Attack.canceled -= instance.OnAttack;
+            @Block.started -= instance.OnBlock;
+            @Block.performed -= instance.OnBlock;
+            @Block.canceled -= instance.OnBlock;
+            @PrimaryWeapon.started -= instance.OnPrimaryWeapon;
+            @PrimaryWeapon.performed -= instance.OnPrimaryWeapon;
+            @PrimaryWeapon.canceled -= instance.OnPrimaryWeapon;
+            @Inventory.started -= instance.OnInventory;
+            @Inventory.performed -= instance.OnInventory;
+            @Inventory.canceled -= instance.OnInventory;
         }
 
         public void RemoveCallbacks(IPlayerMainMapActions instance)
@@ -362,5 +449,8 @@ public partial class @PlayerControllerMap: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
+        void OnBlock(InputAction.CallbackContext context);
+        void OnPrimaryWeapon(InputAction.CallbackContext context);
+        void OnInventory(InputAction.CallbackContext context);
     }
 }

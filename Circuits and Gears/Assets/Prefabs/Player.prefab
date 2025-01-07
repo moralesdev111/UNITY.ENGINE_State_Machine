@@ -3266,7 +3266,7 @@ GameObject:
   - component: {fileID: 8161839896392268263}
   - component: {fileID: 2031641360376863105}
   - component: {fileID: 6724977331688289474}
-  m_Layer: 7
+  m_Layer: 2
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -3327,6 +3327,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8deec373441e6d749bd369dff483b965, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerStateMachine: {fileID: 7356339370016515225}
 --- !u!114 &7356339370016515225
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3363,21 +3364,27 @@ MonoBehaviour:
   - animationName: Attack1
     animationTransitionDuration: 0.15
     comboStateIndex: 1
-    comboAttackTime: 0.1
+    comboAttackTime: 0.15
     attackDamage: 20
   - animationName: Attack2
     animationTransitionDuration: 0.15
     comboStateIndex: 2
-    comboAttackTime: 0.15
+    comboAttackTime: 0.25
     attackDamage: 30
   - animationName: Attack3
     animationTransitionDuration: 0.25
     comboStateIndex: -1
-    comboAttackTime: 0.2
+    comboAttackTime: 0.3
     attackDamage: 50
   weaponTriggerToggle: {fileID: 7906321230155789624}
   weaponDamage: {fileID: 8694026202414562683}
   ragdoll: {fileID: 6724977331688289474}
+  ActorInstance: {fileID: 0}
+  interactRange: 10
+  actorLayerMask:
+    serializedVersion: 2
+    m_Bits: 499
+  playerCamera: {fileID: 0}
 --- !u!114 &8161839896392268263
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3427,7 +3434,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 2031641360376863105}
-  playerController: {fileID: 7607746410897350942}
 --- !u!1 &8304196420735578161
 GameObject:
   m_ObjectHideFlags: 0

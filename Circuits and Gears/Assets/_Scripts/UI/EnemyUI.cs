@@ -9,18 +9,19 @@ public class EnemyUI : MonoBehaviour
 	[SerializeField] private TextMeshProUGUI damagePopupText;
 	[SerializeField] private HealthComponent enemyHealthComponent;
 	[SerializeField] private float damagePopupTime = 0.5f;
-	private Camera playerCamera;
+	public Camera playerCamera;
 	[SerializeField] private Transform enemyCanvasTransform;
 	private bool healthBarSliderOn = false;
 
 
 	private void OnEnable()
 	{
-		playerCamera = GameManager.Instance.PlayerCamera;
+		//playerCamera = GameManager.Instance.PlayerCamera;
 		enemyHealthComponent.onHealthChanged += SetHealthBarSlider;
 		enemyHealthComponent.onDeath += TurnOffHealthBarSlider;
 		enemyHealthComponent.onHealthChanged += SetDamagePopupText;
 		enemyHealthComponent.onHealthChanged += OnHealthChangedHandling;
+
 	}
 
 	private void OnDisable()

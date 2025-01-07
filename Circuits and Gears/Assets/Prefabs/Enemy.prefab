@@ -1038,7 +1038,6 @@ MonoBehaviour:
   damagePopupText: {fileID: 2727962556281929001}
   enemyHealthComponent: {fileID: 5939771396997549094}
   damagePopupTime: 1
-  playerCamera: {fileID: 0}
   enemyCanvasTransform: {fileID: 2651432209776451263}
 --- !u!1 &3183034287891099219
 GameObject:
@@ -1639,7 +1638,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1092730716557963683
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3687,7 +3686,6 @@ MonoBehaviour:
   chasingRange: 7
   attackRange: 2.5
   attackDamage: 5
-  playerHealthComponent: {fileID: 0}
   navMeshAgent: {fileID: 2564785494744286200}
   weaponTriggerToggle: {fileID: 3400395667103836537}
   weaponDamage: {fileID: 3176388461829142219}
@@ -3799,7 +3797,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 2489997018172309484}
-  playerController: {fileID: 0}
 --- !u!1 &8801351946726769957
 GameObject:
   m_ObjectHideFlags: 0

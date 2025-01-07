@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -57,7 +58,34 @@ public class PlayerStateMachine : StateMachine
 	private readonly int inputMagnitudeHash = Animator.StringToHash("inputMagnitude");
 	[SerializeField] private Ragdoll ragdoll;
 	public Ragdoll Ragdoll => ragdoll;
-
+	//Raycast
+	private ActorTrigger actorTrigger;
+	public ActorTrigger ActorTrigger
+	{
+		get => actorTrigger;
+		set
+		{
+			if (actorTrigger != null)
+			{
+				actorTrigger.onPlayerEnterTrigger -= ToggleRaycast;
+			}
+			actorTrigger = value;
+			if (actorTrigger != null)
+			{
+				actorTrigger.onPlayerEnterTrigger += ToggleRaycast;
+			}
+		}
+	}
+	public ActorInstance ActorInstance;
+	private bool canRaycast = false;
+	public bool CanRaycast => canRaycast;
+	private GameObject hitObject;
+	public GameObject HitObject => hitObject;
+	[SerializeField] private int interactRange = 4;
+	[SerializeField] private LayerMask actorLayerMask;
+	public event Action<bool> onSuccessfullRaycast;
+	[SerializeField] private Camera playerCamera;
+	//End Raycast
 
 	private void OnEnable()
 	{
@@ -138,5 +166,69 @@ public class PlayerStateMachine : StateMachine
 	private void HandleDeath()
 	{
 		SwitchState(new PlayerDeadState(this));
+	}
+
+	public void Raycasting()
+	{
+		Vector2 screenCenter = new Vector3(Screen.width / 2, Screen.height / 2);
+		//Ray ray = Camera.main.ScreenPointToRay(playerCamera.transform.position);
+		bool raycastIsHittingActor = Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out RaycastHit hitInfo, interactRange, actorLayerMask);
+		//we throw some rays
+		//we hit?
+		if (raycastIsHittingActor)
+		{
+			if (hitInfo.collider.CompareTag("Actor"))
+			//hit actor
+			{
+				hitObject = hitInfo.collider.gameObject;
+				ActorInstance = hitObject.GetComponent<ActorInstance>();
+				onSuccessfullRaycast?.Invoke(raycastIsHittingActor);
+				Debug.Log("a");
+			}
+			else
+			{
+				EmptyRaycastHandling();
+			}
+		}
+		//didnt hit any gameObject
+		else
+		{
+			EmptyRaycastHandling();
+			Debug.Log("z");
+		}
+	}
+
+	//toggle raycast according to entering or exit trigger
+	public void ToggleRaycast(bool toggle)
+	{
+		canRaycast = toggle;
+		if (!canRaycast)
+		{
+			EmptyRaycastHandling();
+		}
+	}
+
+	//reset values on empty ray
+	private void EmptyRaycastHandling()
+	{
+		hitObject = null;
+		ActorInstance = null;
+		onSuccessfullRaycast?.Invoke(false);
+	}
+
+	//debug rays
+	private void OnDrawGizmos()
+	{
+		if (!canRaycast) return;
+
+		Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+		Gizmos.color = Color.blue;
+		Gizmos.DrawLine(ray.origin, ray.origin + ray.direction * interactRange);
+
+		if (Physics.Raycast(ray, out RaycastHit hitInfo, interactRange))
+		{
+			Gizmos.color = Color.red;
+			Gizmos.DrawSphere(hitInfo.point, 0.2f);
+		}
 	}
 }

@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+
 public class PlayerController : MonoBehaviour, PlayerControllerMap.IPlayerMainMapActions
 {
 	private PlayerControllerMap playerControllerMap;
@@ -10,6 +11,7 @@ public class PlayerController : MonoBehaviour, PlayerControllerMap.IPlayerMainMa
 	public Vector2 MovementInput => movementInput;
 	private Vector2 lookInput;
 	public Vector2 LookInput => lookInput;
+	[SerializeField] private PlayerStateMachine playerStateMachine;
 	private bool playerControlsOverride = false;
 	public bool PlayerControlsOverride
 	{
@@ -20,8 +22,22 @@ public class PlayerController : MonoBehaviour, PlayerControllerMap.IPlayerMainMa
 	public event Action onSprint;
 	public event Action onDash;
 	public event Action<bool> onAttack;
+	public event Action<bool> onBlock;
+	public event Action onPrimaryWeapon;
+	public event Action onInventory;
 	private bool isAttacking = false;
 	public bool IsAttacking => isAttacking;
+	private bool canBlock = true;
+	public bool CanBlock
+	{
+		get => canBlock;
+		set
+		{
+			canBlock = value;
+		}
+	}
+	private bool isBlocking = false;
+	public bool IsBlocking => isBlocking;
 
 
 	//enable controller map
@@ -82,5 +98,38 @@ public class PlayerController : MonoBehaviour, PlayerControllerMap.IPlayerMainMa
 			isAttacking = false;
 			onAttack?.Invoke(!isAttacking);
 		}
+	}
+
+	public void OnBlock(InputAction.CallbackContext context)
+	{
+		if (playerControlsOverride || !canBlock) return;
+
+		if (context.performed)
+		{
+			isBlocking = true;
+			onBlock?.Invoke(isBlocking);
+		}
+		else if (context.canceled)
+		{
+			if (playerStateMachine.CurrentState is PlayerFreeLookState) return;
+
+			isBlocking = false;
+			onBlock?.Invoke(!isBlocking);
+		}
+	}
+
+	public void OnPrimaryWeapon(InputAction.CallbackContext context)
+	{
+		if (playerControlsOverride) return;
+
+		onPrimaryWeapon?.Invoke();
+
+	}
+
+	public void OnInventory(InputAction.CallbackContext context)
+	{
+		if (playerControlsOverride) return;
+
+		onInventory.Invoke();
 	}
 }

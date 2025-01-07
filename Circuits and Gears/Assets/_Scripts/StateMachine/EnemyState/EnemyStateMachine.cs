@@ -30,7 +30,7 @@ public class EnemyStateMachine : StateMachine
 
 	private void OnDisable()
 	{
-		healthComponent.onDeath += HandleDeath;
+		healthComponent.onDeath -= HandleDeath;
 	}
 
 

@@ -1,5 +1,7 @@
 using UnityEngine;
 
+//this class describes and Attack
+
 [System.Serializable]
 public class AttackData
 {

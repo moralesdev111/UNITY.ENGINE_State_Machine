@@ -23,6 +23,12 @@ public class HealthComponent : MonoBehaviour
 	public event Action onDeath;
 	private bool isDead = false;
 	public bool IsDead => isDead;
+	private bool isInvulnerable = false;
+	public bool IsInvulnerable
+	{
+		get => isInvulnerable;
+		set => isInvulnerable = value;
+	}
 
 
 	//set starting health
@@ -34,6 +40,8 @@ public class HealthComponent : MonoBehaviour
 	//change health given input damage
 	public void ChangeHealth(int damage)
 	{
+		if (IsInvulnerable) return;
+
 		CurrentHealth -= damage;
 	}
 }
