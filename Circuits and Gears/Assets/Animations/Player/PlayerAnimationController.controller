@@ -52,6 +52,32 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!1102 &-4586314756470573772
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Read
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: -203655887218126122, guid: f876830d79a57cb4a994fbb70e18cfa3, type: 3}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1102 &-2221758549582955999
 AnimatorState:
   serializedVersion: 6
@@ -146,7 +172,7 @@ AnimatorStateMachine:
     m_Position: {x: 370, y: 0, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6093457313747923277}
-    m_Position: {x: 370, y: -110, z: 0}
+    m_Position: {x: 370, y: -100, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -5612029636167425351}
     m_Position: {x: 370, y: -50, z: 0}
@@ -159,6 +185,15 @@ AnimatorStateMachine:
   - serializedVersion: 1
     m_State: {fileID: -2221758549582955999}
     m_Position: {x: 370, y: -180, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 1923490979761173245}
+    m_Position: {x: 370, y: -250, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -4586314756470573772}
+    m_Position: {x: 370, y: -320, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 210130716479359043}
+    m_Position: {x: 640, y: 0, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -181,21 +216,21 @@ BlendTree:
     m_Motion: {fileID: -203655887218126122, guid: 565cc62a59be2c54490e0c430235e1f1, type: 3}
     m_Threshold: 0
     m_Position: {x: 0, y: 0}
-    m_TimeScale: 0.1
+    m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: inputMagnitude
     m_Mirror: 0
   - serializedVersion: 2
     m_Motion: {fileID: -203655887218126122, guid: 25e51400547364d4f809174987473434, type: 3}
-    m_Threshold: 0.1
+    m_Threshold: 0.3
     m_Position: {x: 0, y: 0}
-    m_TimeScale: 0.9
+    m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: inputMagnitude
     m_Mirror: 0
   - serializedVersion: 2
     m_Motion: {fileID: -203655887218126122, guid: 8f86f6af38b52e34d9b895b4d64990e7, type: 3}
-    m_Threshold: 0.9
+    m_Threshold: 0.7
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
@@ -204,7 +239,7 @@ BlendTree:
   m_BlendParameter: inputMagnitude
   m_BlendParameterY: Blend
   m_MinThreshold: 0
-  m_MaxThreshold: 0.9
+  m_MaxThreshold: 0.7
   m_UseAutomaticThresholds: 0
   m_NormalizedBlendValues: 0
   m_BlendType: 0
@@ -236,6 +271,32 @@ AnimatorController:
     m_IKPass: 0
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
+--- !u!1102 &210130716479359043
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Sheath
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: -203655887218126122, guid: 2d0f5b1b1f87f6948b197eacd4eb12cb, type: 3}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1102 &440481364486611026
 AnimatorState:
   serializedVersion: 6
@@ -288,6 +349,32 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!1102 &1923490979761173245
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Gather
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: -203655887218126122, guid: ef27ef37c6deeb649b2d31b6110d4f46, type: 3}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: inputMagnitude
 --- !u!1102 &6093457313747923277
 AnimatorState:
   serializedVersion: 6

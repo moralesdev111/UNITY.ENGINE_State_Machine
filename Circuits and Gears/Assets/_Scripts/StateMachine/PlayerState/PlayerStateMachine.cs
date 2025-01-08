@@ -86,6 +86,22 @@ public class PlayerStateMachine : StateMachine
 	public event Action<bool> onSuccessfullRaycast;
 	[SerializeField] private Camera playerCamera;
 	//End Raycast
+	[SerializeField] private Inventory inventory;
+	public Inventory Inventory => inventory;
+	public event Action<bool> onNotePanel;
+
+	[SerializeField] private Transform sheathTransform;
+	[SerializeField] private Transform unSheathTransform;
+	[SerializeField] private GameObject sword;
+	private bool hasSheathed = false;
+	public bool HasSheated
+	{
+		get => hasSheathed;
+		set => hasSheathed = value;
+	}
+
+
+
 
 	private void OnEnable()
 	{
@@ -231,4 +247,37 @@ public class PlayerStateMachine : StateMachine
 			Gizmos.DrawSphere(hitInfo.point, 0.2f);
 		}
 	}
+
+	public void BroadcastNotePanel(bool toggle)
+	{
+		onNotePanel?.Invoke(toggle);
+	}
+
+	public void Sheath()
+	{
+		sword.transform.SetParent(sheathTransform);
+		sword.transform.localPosition = SwordSheathState.sheathedState.position;
+		sword.transform.localRotation = SwordSheathState.sheathedState.rotation;
+		hasSheathed = true;
+	}
+
+	public void UnSheath()
+	{
+		
+	}
+}
+
+public struct SwordSheathState
+{
+	public Vector3 position;
+	public Quaternion rotation;
+
+	public SwordSheathState(Vector3 position, Quaternion rotation)
+	{
+		this.position = position;
+		this.rotation = rotation;
+	}
+
+	public static readonly SwordSheathState sheathedState = new SwordSheathState(new Vector3(-0.099f, 0.027f,0.0f), Quaternion.Euler(15,90,75));
+	public static readonly SwordSheathState unsheathedState = new SwordSheathState(new Vector3(-0.09999975f, 0.06000012f, 0.01999998f), Quaternion.Euler(0, 0, 90));
 }

@@ -10,9 +10,7 @@ public class Inventory : MonoBehaviour
 
 	[SerializeField] private int inventorySize = 12;
 	public int InventorySize { get { return inventorySize; } }
-	private int itemCount = 0;
 	private bool itemCanBeAdded => inventory.Count < inventorySize;
-
 	public event Action onInventoryChanged;
 
 
@@ -23,8 +21,14 @@ public class Inventory : MonoBehaviour
 	{
 		if (itemCanBeAdded)
 		{
+			for (int i = 0; i < inventory.Count; i++)
+			{
+				if(inventory[i] == null)
+				{
+					inventory.Add(item);
+				}
+			}
 			inventory.Add(item);
-			itemCount++;
 			onInventoryChanged?.Invoke();
 			return true;
 		}

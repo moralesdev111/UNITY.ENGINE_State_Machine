@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour, PlayerControllerMap.IPlayerMainMa
 	private Vector2 lookInput;
 	public Vector2 LookInput => lookInput;
 	[SerializeField] private PlayerStateMachine playerStateMachine;
+	[SerializeField] private PlayerUI playerUI;
 	private bool playerControlsOverride = false;
 	public bool PlayerControlsOverride
 	{
@@ -25,6 +26,10 @@ public class PlayerController : MonoBehaviour, PlayerControllerMap.IPlayerMainMa
 	public event Action<bool> onBlock;
 	public event Action onPrimaryWeapon;
 	public event Action onInventory;
+	public event Action<ActorData> onInteract;
+	public event Action onEscape;
+	public event Action onSheath;
+
 	private bool isAttacking = false;
 	public bool IsAttacking => isAttacking;
 	private bool canBlock = true;
@@ -123,13 +128,35 @@ public class PlayerController : MonoBehaviour, PlayerControllerMap.IPlayerMainMa
 		if (playerControlsOverride) return;
 
 		onPrimaryWeapon?.Invoke();
-
 	}
 
 	public void OnInventory(InputAction.CallbackContext context)
 	{
 		if (playerControlsOverride) return;
 
-		onInventory.Invoke();
+		onInventory?.Invoke();
+	}
+
+	public void OnInteract(InputAction.CallbackContext context)
+	{
+		if (playerControlsOverride || !playerStateMachine.ActorInstance) return;
+
+		onInteract?.Invoke(playerStateMachine.ActorInstance.ActorData);
+	}
+
+	public void OnEscape(InputAction.CallbackContext context)
+	{
+		if(playerStateMachine.CurrentState is PlayerInteractState && playerUI.NotePanel.activeInHierarchy)
+		{
+			playerStateMachine.SwitchState(new PlayerFreeLookState(playerStateMachine));
+		}
+		onEscape?.Invoke();
+	}
+
+	public void OnSheathWeapon(InputAction.CallbackContext context)
+	{
+		if (playerControlsOverride) return;
+
+		onSheath?.Invoke();
 	}
 }

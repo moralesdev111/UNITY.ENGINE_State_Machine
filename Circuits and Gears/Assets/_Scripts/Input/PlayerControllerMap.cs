@@ -107,6 +107,33 @@ public partial class @PlayerControllerMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""6c7009b4-63b7-45f8-a7da-1efeac351c88"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Escape"",
+                    ""type"": ""Button"",
+                    ""id"": ""f57aa272-0f33-44ae-90b0-054d57b7d8a8"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SheathWeapon"",
+                    ""type"": ""Button"",
+                    ""id"": ""2d8bc1e5-0982-4a0a-a513-0e7ea0a75df3"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -252,6 +279,39 @@ public partial class @PlayerControllerMap: IInputActionCollection2, IDisposable
                     ""action"": ""Inventory"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e3d515ef-19d4-48a2-88ee-a8b5a8d18ce3"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b9fb6eab-c642-47b5-bb8b-311908fbcb6f"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Escape"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""de976f09-cf6a-455c-88a7-7cf917330775"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SheathWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -269,6 +329,9 @@ public partial class @PlayerControllerMap: IInputActionCollection2, IDisposable
         m_PlayerMainMap_Block = m_PlayerMainMap.FindAction("Block", throwIfNotFound: true);
         m_PlayerMainMap_PrimaryWeapon = m_PlayerMainMap.FindAction("PrimaryWeapon", throwIfNotFound: true);
         m_PlayerMainMap_Inventory = m_PlayerMainMap.FindAction("Inventory", throwIfNotFound: true);
+        m_PlayerMainMap_Interact = m_PlayerMainMap.FindAction("Interact", throwIfNotFound: true);
+        m_PlayerMainMap_Escape = m_PlayerMainMap.FindAction("Escape", throwIfNotFound: true);
+        m_PlayerMainMap_SheathWeapon = m_PlayerMainMap.FindAction("SheathWeapon", throwIfNotFound: true);
     }
 
     ~@PlayerControllerMap()
@@ -344,6 +407,9 @@ public partial class @PlayerControllerMap: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerMainMap_Block;
     private readonly InputAction m_PlayerMainMap_PrimaryWeapon;
     private readonly InputAction m_PlayerMainMap_Inventory;
+    private readonly InputAction m_PlayerMainMap_Interact;
+    private readonly InputAction m_PlayerMainMap_Escape;
+    private readonly InputAction m_PlayerMainMap_SheathWeapon;
     public struct PlayerMainMapActions
     {
         private @PlayerControllerMap m_Wrapper;
@@ -357,6 +423,9 @@ public partial class @PlayerControllerMap: IInputActionCollection2, IDisposable
         public InputAction @Block => m_Wrapper.m_PlayerMainMap_Block;
         public InputAction @PrimaryWeapon => m_Wrapper.m_PlayerMainMap_PrimaryWeapon;
         public InputAction @Inventory => m_Wrapper.m_PlayerMainMap_Inventory;
+        public InputAction @Interact => m_Wrapper.m_PlayerMainMap_Interact;
+        public InputAction @Escape => m_Wrapper.m_PlayerMainMap_Escape;
+        public InputAction @SheathWeapon => m_Wrapper.m_PlayerMainMap_SheathWeapon;
         public InputActionMap Get() { return m_Wrapper.m_PlayerMainMap; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -393,6 +462,15 @@ public partial class @PlayerControllerMap: IInputActionCollection2, IDisposable
             @Inventory.started += instance.OnInventory;
             @Inventory.performed += instance.OnInventory;
             @Inventory.canceled += instance.OnInventory;
+            @Interact.started += instance.OnInteract;
+            @Interact.performed += instance.OnInteract;
+            @Interact.canceled += instance.OnInteract;
+            @Escape.started += instance.OnEscape;
+            @Escape.performed += instance.OnEscape;
+            @Escape.canceled += instance.OnEscape;
+            @SheathWeapon.started += instance.OnSheathWeapon;
+            @SheathWeapon.performed += instance.OnSheathWeapon;
+            @SheathWeapon.canceled += instance.OnSheathWeapon;
         }
 
         private void UnregisterCallbacks(IPlayerMainMapActions instance)
@@ -424,6 +502,15 @@ public partial class @PlayerControllerMap: IInputActionCollection2, IDisposable
             @Inventory.started -= instance.OnInventory;
             @Inventory.performed -= instance.OnInventory;
             @Inventory.canceled -= instance.OnInventory;
+            @Interact.started -= instance.OnInteract;
+            @Interact.performed -= instance.OnInteract;
+            @Interact.canceled -= instance.OnInteract;
+            @Escape.started -= instance.OnEscape;
+            @Escape.performed -= instance.OnEscape;
+            @Escape.canceled -= instance.OnEscape;
+            @SheathWeapon.started -= instance.OnSheathWeapon;
+            @SheathWeapon.performed -= instance.OnSheathWeapon;
+            @SheathWeapon.canceled -= instance.OnSheathWeapon;
         }
 
         public void RemoveCallbacks(IPlayerMainMapActions instance)
@@ -452,5 +539,8 @@ public partial class @PlayerControllerMap: IInputActionCollection2, IDisposable
         void OnBlock(InputAction.CallbackContext context);
         void OnPrimaryWeapon(InputAction.CallbackContext context);
         void OnInventory(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
+        void OnEscape(InputAction.CallbackContext context);
+        void OnSheathWeapon(InputAction.CallbackContext context);
     }
 }

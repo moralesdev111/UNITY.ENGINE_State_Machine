@@ -8,7 +8,6 @@ public class InventoryUI : MonoBehaviour
 	private Inventory inventory;
 	private PlayerController playerController;
 	private InventorySlot[] inventorySlots;
-	private bool inventoryUi = false;
 
 
 	//DI references
@@ -19,6 +18,7 @@ public class InventoryUI : MonoBehaviour
 		playerController = GameManager.Instance.Player.GetComponent<PlayerController>();
 		playerController.onInventory += ToggleInventory;
 		inventory.onInventoryChanged += ReDrawUI;
+		playerController.onEscape += CloseInventoryUI;
 	}
 
 	//unsub
@@ -26,6 +26,7 @@ public class InventoryUI : MonoBehaviour
 	{
 		playerController.onInventory -= ToggleInventory;
 		inventory.onInventoryChanged -= ReDrawUI;
+		playerController.onEscape -= CloseInventoryUI;
 	}
 
 	//initialize inventory ui
@@ -51,8 +52,7 @@ public class InventoryUI : MonoBehaviour
 	//set ui according to bool
 	private void ToggleInventory()
 	{
-		inventoryUi = !inventoryUi;
-		inventoryUI.SetActive(inventoryUi);
+		inventoryUI.SetActive(!inventoryUI.activeInHierarchy);
 	}
 
 	//for loop over inventory size
@@ -63,5 +63,10 @@ public class InventoryUI : MonoBehaviour
 		{
 			inventorySlots[i].UpdateSlotUIOnNewItem(inventory._Inventory[i]);
 		}
+	}
+
+	private void CloseInventoryUI()
+	{
+		inventoryUI.SetActive(false);
 	}
 }

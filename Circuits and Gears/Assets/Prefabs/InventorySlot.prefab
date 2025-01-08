@@ -148,12 +148,12 @@ GameObject:
   - component: {fileID: 8089086445543740924}
   - component: {fileID: 4951568187140043523}
   m_Layer: 0
-  m_Name: SlotAmount
+  m_Name: SlotQuantity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3097305544524507412
 RectTransform:
   m_ObjectHideFlags: 0
@@ -201,7 +201,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 99
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -329,7 +329,7 @@ MonoBehaviour:
     actorName: 
     actorSprite: {fileID: 0}
   slotName: {fileID: 3155891938123425318}
-  slotAmount: {fileID: 4951568187140043523}
+  slotQuantity: {fileID: 4951568187140043523}
 --- !u!1 &8662097438067055018
 GameObject:
   m_ObjectHideFlags: 0
