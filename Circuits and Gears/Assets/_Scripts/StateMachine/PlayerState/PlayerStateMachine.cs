@@ -92,12 +92,20 @@ public class PlayerStateMachine : StateMachine
 
 	[SerializeField] private Transform sheathTransform;
 	[SerializeField] private Transform unSheathTransform;
+	public Transform UnSheathTransform => unSheathTransform;
 	[SerializeField] private GameObject sword;
-	private bool hasSheathed = false;
-	public bool HasSheated
+	public GameObject Sword => sword;
+	private bool hasSheathedLogistics = false;
+	public bool HasSheatedLogistics
 	{
-		get => hasSheathed;
-		set => hasSheathed = value;
+		get => hasSheathedLogistics;
+		set => hasSheathedLogistics = value;
+	}
+	private bool weaponIsSheathed = false;
+	public bool WeaponIsSheathed
+	{
+		get => weaponIsSheathed;
+		set => weaponIsSheathed = value;
 	}
 
 
@@ -258,12 +266,23 @@ public class PlayerStateMachine : StateMachine
 		sword.transform.SetParent(sheathTransform);
 		sword.transform.localPosition = SwordSheathState.sheathedState.position;
 		sword.transform.localRotation = SwordSheathState.sheathedState.rotation;
-		hasSheathed = true;
+		hasSheathedLogistics = true;
+		weaponIsSheathed = true;
+		playerAnimator.SetLayerWeight(1, 0);
 	}
 
 	public void UnSheath()
 	{
-		
+		hasSheathedLogistics = true;
+		weaponIsSheathed = false;
+		playerAnimator.SetLayerWeight(1, 0);
+	}
+
+	public void DelayUnSheathTransform()
+	{
+		sword.transform.SetParent(unSheathTransform);
+		sword.transform.localPosition = SwordSheathState.unsheathedState.position;
+		sword.transform.localRotation = SwordSheathState.unsheathedState.rotation;
 	}
 }
 

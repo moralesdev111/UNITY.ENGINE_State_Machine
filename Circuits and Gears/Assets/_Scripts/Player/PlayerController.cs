@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour, PlayerControllerMap.IPlayerMainMa
 	public event Action onInventory;
 	public event Action<ActorData> onInteract;
 	public event Action onEscape;
-	public event Action onSheath;
+	public event Action<bool> onSheath;
 
 	private bool isAttacking = false;
 	public bool IsAttacking => isAttacking;
@@ -157,6 +157,7 @@ public class PlayerController : MonoBehaviour, PlayerControllerMap.IPlayerMainMa
 	{
 		if (playerControlsOverride) return;
 
-		onSheath?.Invoke();
+		onSheath?.Invoke(!playerStateMachine.WeaponIsSheathed);
+		playerStateMachine.PlayerAnimator.SetLayerWeight(1, 1);
 	}
 }

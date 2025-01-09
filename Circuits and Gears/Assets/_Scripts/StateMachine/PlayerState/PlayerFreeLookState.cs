@@ -4,6 +4,9 @@ public class PlayerFreeLookState : PlayerBaseState
 {
 	private readonly int freeLookBlendTreeHash = Animator.StringToHash("MovingBlendTree");
 	private readonly int sheathHash = Animator.StringToHash("Sheath");
+	private readonly int unSheathHash = Animator.StringToHash("Unsheath");
+	private const int sheathLayerIndex = 1;
+	
 	public PlayerFreeLookState(PlayerStateMachine playerStateMachine) : base(playerStateMachine) {}
 	//unsub to player trigger
 	private void OnDisable()
@@ -28,6 +31,7 @@ public class PlayerFreeLookState : PlayerBaseState
 		if (currentAnimation.IsName("Falling Idle")) return;
 
 		playerStateMachine.PlayerAnimator.CrossFadeInFixedTime(freeLookBlendTreeHash, 0.15f);
+		playerStateMachine.PlayerAnimator.SetLayerWeight(sheathLayerIndex, 0);
 	}
 	public override void Tick(float deltaTime)
 	{
@@ -35,15 +39,6 @@ public class PlayerFreeLookState : PlayerBaseState
 		playerStateMachine.HandleMovement(deltaTime, playerStateMachine.IsSprinting ? playerStateMachine.SprintSpeed : playerStateMachine.MovementSpeed);
 
 		if (playerStateMachine.CanRaycast) playerStateMachine.Raycasting();
-		AnimatorStateInfo currentAnimation = playerStateMachine.PlayerAnimator.GetCurrentAnimatorStateInfo(0);
-		if (currentAnimation.IsName("Sheath"))
-		{
-			if(AnimationHasFinished(sheathHash) && !playerStateMachine.HasSheated)
-			{
-				playerStateMachine.Sheath();
-				playerStateMachine.PlayerAnimator.CrossFadeInFixedTime(freeLookBlendTreeHash, 0.15f);
-			}
-		}
 	}
 
 	public override void Exit()
@@ -64,12 +59,24 @@ public class PlayerFreeLookState : PlayerBaseState
 
 	private void OnAttack(bool toggle)
 	{
-		if(toggle) playerStateMachine.SwitchState(new PlayerAttackState(playerStateMachine, 0));
+		if(toggle)
+		{
+			if(!playerStateMachine.WeaponIsSheathed)
+			{
+				playerStateMachine.SwitchState(new PlayerAttackState(playerStateMachine, 0));
+			}
+		}
 	}
 
 	private void OnBlock(bool toggle)
 	{
-		if (toggle) playerStateMachine.SwitchState(new PlayerBlockState(playerStateMachine));
+		if (toggle)
+		{
+			if (!playerStateMachine.WeaponIsSheathed)
+			{
+				playerStateMachine.SwitchState(new PlayerBlockState(playerStateMachine));
+			}
+		}
 	}
 
 	private void OnInteract(ActorData actorData)
@@ -77,10 +84,17 @@ public class PlayerFreeLookState : PlayerBaseState
 		playerStateMachine.SwitchState(new PlayerInteractState(playerStateMachine, actorData));
 	}
 
-	private void OnSheath()
+	private void OnSheath(bool toggle)
 	{
-		playerStateMachine.HasSheated = false;
-		playerStateMachine.PlayerAnimator.CrossFadeInFixedTime(sheathHash, 0.15f);
+		playerStateMachine.HasSheatedLogistics = false;
+		if (toggle)
+		{
+			playerStateMachine.PlayerAnimator.CrossFadeInFixedTime(sheathHash, 0.15f);
+		}
+		else
+		{
+			playerStateMachine.PlayerAnimator.CrossFadeInFixedTime(unSheathHash, 0.15f);
+		}	
 	}
 }
 

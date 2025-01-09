@@ -12,12 +12,12 @@ public abstract class PlayerBaseState : State
 		this.playerStateMachine = playerStateMachine;
 	}
 
-	protected bool AnimationHasFinished(int animationHash)
+	protected bool AnimationHasFinished(int animationHash, int layer)
 	{
-		AnimatorStateInfo currentAnimation = playerStateMachine.PlayerAnimator.GetCurrentAnimatorStateInfo(0);
+		AnimatorStateInfo currentAnimation = playerStateMachine.PlayerAnimator.GetCurrentAnimatorStateInfo(layer);
 
 		return currentAnimation.shortNameHash == animationHash
 		  && currentAnimation.normalizedTime >= 1.0f
-		  && !playerStateMachine.PlayerAnimator.IsInTransition(0);
+		   && !playerStateMachine.PlayerAnimator.IsInTransition(0);
 	}
 }

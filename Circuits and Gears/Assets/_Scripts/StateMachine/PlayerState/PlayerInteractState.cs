@@ -30,11 +30,11 @@ public class PlayerInteractState : PlayerBaseState
 	{
 		playerStateMachine.HandleGravity(deltaTime);
 
-		if (AnimationHasFinished(gatherHash))
+		if (AnimationHasFinished(gatherHash, 0))
 		{
 			playerStateMachine.SwitchState(new PlayerFreeLookState(playerStateMachine));
 		}
-		else if(AnimationHasFinished(readHash))
+		else if(AnimationHasFinished(readHash, 0))
 		{
 			if (uiSet == false)
 			{
